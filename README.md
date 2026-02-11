@@ -42,3 +42,8 @@
 - **着手**: 2026年2月
 - **期間**: 約12時間 (企画・実装・デプロイ含む)
 
+## 👤 Author
+**Kouki Iwamoto**
+Information & Electrical Engineering Student / Kumamoto Univ.
+- Focus: AI-Driven Development, Product Management (PdM)
+- Status: **Looking for Summer Internship (2028 Grad)**
