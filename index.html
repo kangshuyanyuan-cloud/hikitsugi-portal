@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第14回紫熊祭 入ステ班 引継ぎポータル</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Icons: FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#6A0DAD',
+                        'primary-light': '#9D46FF',
+                        'primary-bg': '#F3E5F5',
+                        accent: '#FFD700',
+                        dark: '#2D3436',
+                    },
+                    fontFamily: {
+                        sans: ['"Noto Sans JP"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e0; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a0aec0; }
+        
+        .nav-item.active {
+            background-color: #F3E5F5;
+            color: #6A0DAD;
+            border-right: 4px solid #6A0DAD;
+        }
+
+        /* Animation for page transition */
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 font-sans h-screen flex overflow-hidden">
+
+    <!-- SIDEBAR NAVIGATION -->
+    <nav class="w-64 bg-white shadow-xl flex-shrink-0 flex flex-col z-20 hidden md:flex" id="sidebar">
+        <div class="p-6 border-b border-gray-100 flex items-center gap-3">
+            <div class="w-10 h-10 bg-primary rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                <i class="fa-solid fa-paw"></i>
+            </div>
+            <div>
+                <h1 class="font-bold text-lg text-primary leading-tight">紫熊祭<br>入ステ班</h1>
+            </div>
+        </div>
+
+        <div class="flex-1 overflow-y-auto py-4">
+            <p class="px-6 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Main</p>
+            <ul>
+                <li>
+                    <button onclick="router('dashboard')" id="nav-dashboard" class="nav-item w-full text-left px-6 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors active">
+                        <i class="fa-solid fa-chart-pie w-6 text-center"></i> ダッシュボード
+                    </button>
+                </li>
+                <li>
+                    <button onclick="router('members')" id="nav-members" class="nav-item w-full text-left px-6 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors">
+                        <i class="fa-solid fa-users w-6 text-center"></i> メンバー構成
+                    </button>
+                </li>
+                <li>
+                    <button onclick="router('schedule')" id="nav-schedule" class="nav-item w-full text-left px-6 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors">
+                        <i class="fa-solid fa-calendar-days w-6 text-center"></i> スケジュール
+                    </button>
+                </li>
+            </ul>
+
+            <p class="px-6 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Work</p>
+            <ul>
+                <li>
+                    <button onclick="router('duties')" id="nav-duties" class="nav-item w-full text-left px-6 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors">
+                        <i class="fa-solid fa-list-check w-6 text-center"></i> 班長の仕事
+                    </button>
+                </li>
+                <li>
+                    <button onclick="router('productions')" id="nav-productions" class="nav-item w-full text-left px-6 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors">
+                        <i class="fa-solid fa-paintbrush w-6 text-center"></i> 制作物一覧
+                    </button>
+                </li>
+                <li>
+                    <button onclick="router('purchases')" id="nav-purchases" class="nav-item w-full text-left px-6 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors">
+                        <i class="fa-solid fa-cart-shopping w-6 text-center"></i> 購入品・指定店
+                    </button>
+                </li>
+                <li>
+                    <button onclick="router('progress')" id="nav-progress" class="nav-item w-full text-left px-6 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors">
+                        <i class="fa-solid fa-chart-line w-6 text-center"></i> 進捗管理・比較
+                    </button>
+                </li>
+            </ul>
+
+            <p class="px-6 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Data</p>
+            <ul>
+                <li>
+                    <button onclick="router('reflections')" id="nav-reflections" class="nav-item w-full text-left px-6 py-3 hover:bg-gray-50 flex items-center gap-3 transition-colors">
+                        <i class="fa-solid fa-triangle-exclamation w-6 text-center"></i> 反省・注意点
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="p-4 border-t border-gray-100">
+            <div class="bg-primary-bg rounded-lg p-4">
+                <p class="text-xs text-primary font-bold mb-1">引継ぎ担当</p>
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                    <span class="text-sm font-medium">岩元 康樹</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MOBILE HEADER -->
+    <div class="md:hidden fixed top-0 w-full h-16 bg-white z-30 shadow-md flex justify-between items-center p-4">
+        <div class="font-bold text-primary flex items-center gap-2">
+            <i class="fa-solid fa-paw"></i> 入ステ班 Portal
+        </div>
+        <button onclick="toggleMobileMenu()" class="text-gray-600 w-8 h-8 flex items-center justify-center">
+            <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-1 overflow-y-auto bg-gray-100 p-4 md:p-8 pt-20 md:pt-8 relative">
+        
+        <!-- DASHBOARD VIEW -->
+        <div id="view-dashboard" class="view-section fade-in max-w-6xl mx-auto">
+            <header class="mb-8 flex justify-between items-end">
+                <div>
+                    <h2 class="text-3xl font-bold text-dark leading-tight">第14回 紫熊祭 入ステ班<br>引継ぎデータバンク</h2>
+                </div>
+            </header>
+
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                    <div class="text-gray-400 text-sm font-bold uppercase mb-2">班員総数</div>
+                    <div class="flex items-end justify-between">
+                        <span class="text-4xl font-bold text-dark">21<span class="text-xl ml-1 text-gray-400">人</span></span>
+                        <div class="w-10 h-10 rounded-full bg-purple-100 text-primary flex items-center justify-center"><i class="fa-solid fa-users"></i></div>
+                    </div>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                    <div class="text-gray-400 text-sm font-bold uppercase mb-2">総制作物</div>
+                    <div class="flex items-end justify-between">
+                        <div>
+                            <span class="text-4xl font-bold text-dark">8<span class="text-xl ml-1 text-gray-400">個</span></span>
+                            <div class="text-xs text-red-400 font-bold mt-1">※年度により変動</div>
+                        </div>
+                        <div class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center"><i class="fa-solid fa-palette"></i></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Important Notices -->
+                <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-lg mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-thumbtack text-primary"></i> 重要引継ぎ事項
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex gap-4 p-4 bg-red-50 rounded-lg border-l-4 border-red-500">
+                            <div class="text-red-500 mt-1"><i class="fa-solid fa-circle-exclamation"></i></div>
+                            <div>
+                                <h4 class="font-bold text-red-700">ステージサイズの確認必須</h4>
+                                <p class="text-sm text-red-600 mt-1">第13回, 14回と連続でサイズ変更の連絡ミスがありました。必ず<strong>装飾部長</strong>に最新のサイズ表をもらってください。</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
+                            <div class="text-yellow-600 mt-1"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                            <div>
+                                <h4 class="font-bold text-yellow-800">深夜作業の名簿提出</h4>
+                                <p class="text-sm text-yellow-700 mt-1">19時以降の活動には事前の名簿提出が必要です。忘れると活動停止処分になります。</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+                            <div class="text-blue-600 mt-1"><i class="fa-solid fa-champagne-glasses"></i></div>
+                            <div>
+                                <h4 class="font-bold text-blue-800">1年生の交流促進（イベント開催）</h4>
+                                <p class="text-sm text-blue-700 mt-1">1年生同士がなるべく早く仲良くなれるよう、本格的な活動前の夏休みくらいに親睦イベント等を開催することをおすすめします。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                    <h3 class="font-bold text-lg mb-4">クイックアクセス</h3>
+                    <div class="space-y-3">
+                        <button onclick="router('productions')" class="w-full text-left p-4 rounded-lg bg-gray-50 hover:bg-primary-bg hover:text-primary transition-all group">
+                            <div class="font-bold flex justify-between">
+                                制作物一覧
+                                <i class="fa-solid fa-arrow-right opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                            </div>
+                            <div class="text-xs text-gray-500 mt-1">布や看板のサイズ・枚数を確認</div>
+                        </button>
+                        <button onclick="router('schedule')" class="w-full text-left p-4 rounded-lg bg-gray-50 hover:bg-primary-bg hover:text-primary transition-all group">
+                            <div class="font-bold flex justify-between">
+                                スケジュール
+                                <i class="fa-solid fa-arrow-right opacity-0 group-hover:opacity-100 transition-opacity"></i>
+                            </div>
+                            <div class="text-xs text-gray-500 mt-1">年間予定と当日の動き</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MEMBERS VIEW -->
+        <div id="view-members" class="view-section hidden fade-in max-w-5xl mx-auto">
+            <h2 class="text-3xl font-bold text-dark mb-6">班員構成</h2>
+            
+            <!-- LAST YEAR -->
+            <div class="mb-4 text-gray-500 font-bold ml-1"><i class="fa-solid fa-history mr-2"></i>昨年（第14回）の構成</div>
+            <div class="bg-gray-50 rounded-xl border border-gray-200 p-8 mb-8 grayscale opacity-80">
+                <div class="flex items-center justify-center gap-8">
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-gray-600">3<span class="text-lg text-gray-400">人</span></div>
+                        <div class="text-sm font-bold text-gray-400">3年生</div>
+                    </div>
+                    <div class="h-12 w-px bg-gray-300"></div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-gray-600">10<span class="text-lg text-gray-400">人</span></div>
+                        <div class="text-sm font-bold text-gray-400">2年生</div>
+                    </div>
+                    <div class="h-12 w-px bg-gray-300"></div>
+                    <div class="text-center">
+                        <div class="text-4xl font-bold text-gray-600">8<span class="text-lg text-gray-400">人</span></div>
+                        <div class="text-sm font-bold text-gray-400">1年生</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex justify-center mb-8">
+                <div class="bg-primary text-white w-8 h-8 rounded-full flex items-center justify-center shadow-lg z-10">
+                    <i class="fa-solid fa-arrow-down"></i>
+                </div>
+            </div>
+
+            <!-- THIS YEAR (PROVISIONAL) -->
+            <div class="mb-4 text-primary font-bold text-xl ml-1"><i class="fa-solid fa-users mr-2"></i>今年（第15回）の暫定メンバー</div>
+            <div class="bg-white rounded-xl shadow-lg border-2 border-primary-bg p-8 mb-8">
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
+                    <!-- New 3rd Year -->
+                    <div class="text-center group">
+                        <div class="w-20 h-20 mx-auto bg-primary-bg text-primary rounded-full flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                        <div class="text-5xl font-bold text-primary mb-1">1<span class="text-xl ml-2 text-gray-500">人</span></div>
+                        <div class="text-sm font-bold text-gray-500 uppercase tracking-widest">New 3年生</div>
+                        <p class="text-xs text-red-500 mt-2 font-bold">※ 人手不足注意</p>
+                    </div>
+
+                    <div class="hidden md:block h-24 w-px bg-gray-100"></div>
+
+                    <!-- New 2nd Year -->
+                    <div class="text-center group">
+                        <div class="w-20 h-20 mx-auto bg-green-50 text-green-600 rounded-full flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition-transform">
+                            <i class="fa-solid fa-user-group"></i>
+                        </div>
+                        <div class="text-5xl font-bold text-dark mb-1">7<span class="text-xl ml-2 text-gray-500">人</span></div>
+                        <div class="text-sm font-bold text-gray-500 uppercase tracking-widest">New 2年生</div>
+                        <p class="text-xs text-green-600 mt-2 font-bold">主力メンバー</p>
+                    </div>
+                </div>
+                
+                <div class="mt-8 pt-6 border-t border-gray-100">
+                    <div class="flex gap-4 items-start bg-blue-50 p-4 rounded-lg">
+                        <div class="text-blue-500 mt-1 text-lg"><i class="fa-solid fa-bullhorn"></i></div>
+                        <div>
+                            <!-- 修正: 新歓ミッションをシンプル化 -->
+                            <h4 class="font-bold text-blue-800 text-sm">新歓ミッション</h4>
+                            <p class="text-xs text-blue-700 mt-1 leading-relaxed">
+                                3年生卒業につき、新戦力が必要です！<br>
+                                <strong>目標：新1年生 10名以上！</strong><br>
+                                熱意ある勧誘で、新しい仲間を迎え入れましょう。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCHEDULE VIEW -->
+        <div id="view-schedule" class="view-section hidden fade-in max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-dark mb-6">年間スケジュール</h2>
+            <p class="text-sm text-gray-500 mb-6"><i class="fa-solid fa-hand-pointer mr-2"></i>各項目をタップすると詳細・注意事項を確認できます。</p>
+            
+            <div id="schedule-container" class="relative pl-8 border-l-2 border-gray-200 space-y-12">
+                <!-- JSで生成されます -->
+            </div>
+        </div>
+
+        <!-- SCHEDULE DETAIL VIEW (NEW) -->
+        <div id="view-schedule-detail" class="view-section hidden fade-in max-w-4xl mx-auto">
+            <button onclick="closeScheduleDetail()" class="mb-6 flex items-center gap-2 text-gray-500 hover:text-primary transition-colors font-bold">
+                <i class="fa-solid fa-arrow-left"></i> 年間スケジュールに戻る
+            </button>
+
+            <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+                <div id="detail-header" class="p-8 text-white">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span id="detail-month" class="px-3 py-1 rounded-full bg-white/20 text-sm font-bold backdrop-blur-sm"></span>
+                        <span id="detail-label" class="px-3 py-1 rounded-full bg-white text-xs font-bold text-gray-800"></span>
+                    </div>
+                    <h2 id="detail-title" class="text-3xl font-bold"></h2>
+                </div>
+                <div class="p-8">
+                    <h3 class="font-bold text-lg text-gray-700 border-b border-gray-200 pb-2 mb-4">詳細・注意事項</h3>
+                    <div id="detail-content" class="prose prose-purple max-w-none text-gray-600 leading-relaxed">
+                        <!-- Content here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DUTIES VIEW -->
+        <div id="view-duties" class="view-section hidden fade-in max-w-5xl mx-auto">
+            <h2 class="text-3xl font-bold text-dark mb-6">班長の仕事チェックリスト</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="h-2 bg-primary"></div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><i class="fa-solid fa-cart-shopping"></i></div>
+                            <h3 class="font-bold text-lg">買い出し・会計</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded cursor-pointer">
+                                <input type="checkbox" class="mt-1 w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                                <span class="text-sm text-gray-600"><strong>布・ペンキ購入:</strong> 1年生を連れて店を教える</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded cursor-pointer">
+                                <input type="checkbox" class="mt-1 w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                                <span class="text-sm text-gray-600"><strong>レシート管理:</strong> 裏面に「装飾部　名前」を記入</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded cursor-pointer">
+                                <input type="checkbox" class="mt-1 w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                                <span class="text-sm text-gray-600"><strong>会計提出:</strong> 全員分まとめて会計係へ</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="h-2 bg-green-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center"><i class="fa-solid fa-bullhorn"></i></div>
+                            <h3 class="font-bold text-lg">作業管理・指示</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded cursor-pointer">
+                                <input type="checkbox" class="mt-1 w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                                <span class="text-sm text-gray-600"><strong>環境保全:</strong> ブルーシート・段ボールを敷く徹底</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded cursor-pointer">
+                                <input type="checkbox" class="mt-1 w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                                <span class="text-sm text-gray-600"><strong>道具管理:</strong> 刷毛はすぐ洗う、ペンキは密封する</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white rounded-xl shadow-sm overflow-hidden">
+                    <div class="h-2 bg-yellow-500"></div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 rounded-full bg-yellow-100 text-yellow-600 flex items-center justify-center"><i class="fa-solid fa-person-chalkboard"></i></div>
+                            <h3 class="font-bold text-lg">引継ぎ・育成</h3>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded cursor-pointer">
+                                <input type="checkbox" class="mt-1 w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                                <span class="text-sm text-gray-600"><strong>次期候補選定:</strong> 活動中に有望な1年生を見つける</span>
+                            </label>
+                            <label class="flex items-start gap-3 p-3 hover:bg-gray-50 rounded cursor-pointer">
+                                <input type="checkbox" class="mt-1 w-4 h-4 text-primary rounded border-gray-300 focus:ring-primary">
+                                <span class="text-sm text-gray-600"><strong>資料作成:</strong> 失敗談を必ず残す</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PRODUCTIONS VIEW (New: Split from items) -->
+        <div id="view-productions" class="view-section hidden fade-in max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-dark mb-6">制作物・サイズデータベース</h2>
+            
+            <div class="space-y-8">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Cloth Items -->
+                    <div>
+                        <h4 class="font-bold text-lg text-primary mb-4 flex items-center gap-2 border-b border-primary-light pb-2">
+                            <i class="fa-solid fa-scroll"></i> 布製品リスト
+                        </h4>
+                        
+                        <!-- Added Basic Material Info -->
+                        <div class="bg-primary-bg text-primary text-xs p-3 rounded mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <div>
+                                <strong>基本資材：</strong> 白い布<br>
+                                <span class="opacity-75">※裏写りしない丈夫な布であれば銘柄問わずOK</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-100 flex justify-between items-center">
+                                <div>
+                                    <h5 class="font-bold text-gray-700">入場門の布</h5>
+                                    <p class="text-xs text-gray-400 mt-1">メインゲート装飾</p>
+                                </div>
+                                <div class="text-2xl font-bold text-dark">140 × 540 <span class="text-sm font-normal text-gray-400">cm</span></div>
+                            </div>
+                            <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-100 flex justify-between items-center">
+                                <div>
+                                    <h5 class="font-bold text-gray-700">ステージ下の横断幕</h5>
+                                    <p class="text-xs text-gray-400 mt-1">メインステージ下部</p>
+                                </div>
+                                <div class="text-2xl font-bold text-dark">90 × 900 <span class="text-sm font-normal text-gray-400">cm</span></div>
+                            </div>
+                            <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-100 flex justify-between items-center">
+                                <div>
+                                    <h5 class="font-bold text-gray-700">第2案内所の布</h5>
+                                    <p class="text-xs text-gray-400 mt-1">テント上部</p>
+                                </div>
+                                <div class="text-2xl font-bold text-dark">140 × 1080 <span class="text-sm font-normal text-gray-400">cm</span></div>
+                            </div>
+                            <div class="bg-white rounded-xl shadow-sm p-5 border border-gray-100 flex justify-between items-center">
+                                <div>
+                                    <h5 class="font-bold text-gray-700">総合案内所の布</h5>
+                                    <p class="text-xs text-gray-400 mt-1">テント上部</p>
+                                </div>
+                                <!-- 修正: 寸法変更 -->
+                                <div class="text-2xl font-bold text-dark">140 × 800 <span class="text-sm font-normal text-gray-400">cm</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Board Items -->
+                    <div>
+                        <h4 class="font-bold text-lg text-blue-600 mb-4 flex items-center gap-2 border-b border-blue-200 pb-2">
+                            <i class="fa-solid fa-hammer"></i> 看板・パネルリスト
+                        </h4>
+                        <div class="bg-blue-50 text-blue-800 text-xs p-3 rounded mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-info"></i>
+                            <strong>基本資材：</strong> 90 × 180 cm ベニヤ板（技術局準備）を使用
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-white rounded-xl shadow-sm p-5 flex justify-between items-center border border-gray-100">
+                                <div>
+                                    <div class="font-bold text-gray-700">L字の看板（紫熊祭テーマ）</div>
+                                    <div class="text-xs text-gray-400">ベニヤ板</div>
+                                </div>
+                                <span class="font-bold text-xl text-dark">3 <span class="text-sm font-normal text-gray-400">枚</span></span>
+                            </div>
+                            <div class="bg-white rounded-xl shadow-sm p-5 flex justify-between items-center border border-gray-100">
+                                <div>
+                                    <div class="font-bold text-gray-700">L字の看板（装飾部テーマ）</div>
+                                    <div class="text-xs text-gray-400">ベニヤ板</div>
+                                </div>
+                                <span class="font-bold text-xl text-dark">3 <span class="text-sm font-normal text-gray-400">枚</span></span>
+                            </div>
+                            <div class="bg-white rounded-xl shadow-sm p-5 flex justify-between items-center border border-gray-100">
+                                <div>
+                                    <div class="font-bold text-gray-700">ステージバックパネル</div>
+                                    <div class="text-xs text-gray-400">横長構成</div>
+                                </div>
+                                <span class="font-bold text-xl text-dark">3 × 4 <span class="text-sm font-normal text-gray-400">枚</span></span>
+                            </div>
+                            <div class="bg-white rounded-xl shadow-sm p-5 flex justify-between items-center border border-gray-100">
+                                <div>
+                                    <div class="font-bold text-gray-700">お笑いバックパネル</div>
+                                    <div class="text-xs text-gray-400">縦長構成</div>
+                                </div>
+                                <span class="font-bold text-xl text-dark">1 × 9 <span class="text-sm font-normal text-gray-400">枚</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Warning Box -->
+                <div class="bg-red-50 border-l-4 border-red-500 p-6 rounded-lg shadow-sm">
+                    <div class="flex items-start">
+                        <div class="flex-shrink-0">
+                            <i class="fa-solid fa-triangle-exclamation text-red-500 mt-1 text-xl"></i>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-lg font-bold text-red-800">サイズ確認の徹底</h3>
+                            <div class="mt-2 text-sm text-red-700">
+                                <p class="leading-relaxed">
+                                    年度によってテントの大きさやステージの大きさが変わります。<br>
+                                    ここに記載されているのは昨年のデータです。必ず製作前に<strong>装飾部長に最新のサイズをしっかり確認</strong>してください！
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NEW ADVICE BOX -->
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-6 rounded-lg shadow-sm">
+                    <h3 class="font-bold text-lg text-blue-800 mb-3"><i class="fa-solid fa-lightbulb mr-2"></i>制作順序のアドバイス</h3>
+                    <ul class="list-disc list-inside text-blue-800 space-y-2 text-sm">
+                        <li><strong>基本は何からでもOK:</strong> 特に決まりはありませんが、天候と人数を考慮しましょう。</li>
+                        <li><strong>雨の日用タスクを残す:</strong> 雨の日は屋内作業（布の制作など）しかできません。最初に布制作を全て終わらせてしまうと、雨天時にやることがなくなるので注意してください。</li>
+                        <li><strong>大型パネルは後半に:</strong> ステージバックパネルやお笑いバックパネルは人手が必要です。人数が揃う時期や活動後半に制作するのがおすすめです。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- PURCHASES VIEW -->
+        <div id="view-purchases" class="view-section hidden fade-in max-w-6xl mx-auto">
+            <h2 class="text-3xl font-bold text-dark mb-6">購入品・指定店情報</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+                <!-- 汐月ハギレ店 -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 flex flex-col h-full">
+                    <div class="flex items-center gap-3 mb-5 border-b border-gray-100 pb-4">
+                        <div class="w-12 h-12 rounded-full bg-primary-bg text-primary flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-shop"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl text-dark">汐月ハギレ店</h4>
+                            <p class="text-xs text-gray-500">布製品の調達先</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 flex-1">
+                        <!-- Points -->
+                        <div class="flex items-start gap-3">
+                            <div class="bg-blue-100 text-blue-600 w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-xs">
+                                <i class="fa-solid fa-car"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-sm text-gray-700">車での来店を推奨</h5>
+                                <p class="text-xs text-gray-500 mt-1">購入する布が非常に重く量も多いため、車必須です。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3">
+                            <div class="bg-yellow-100 text-yellow-600 w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-xs">
+                                <i class="fa-solid fa-triangle-exclamation"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-sm text-gray-700">駐車場の注意</h5>
+                                <p class="text-xs text-gray-500 mt-1">駐車場が狭いため、大型車の入庫や運転不慣れな方は特に注意してください。</p>
+                            </div>
+                        </div>
+
+                        <!-- Items -->
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mt-4">
+                            <div class="text-xs font-bold text-gray-400 uppercase mb-2 tracking-wider">主な購入品</div>
+                            <div class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-green-500 mt-1"></i>
+                                <div>
+                                    <span class="font-bold text-dark text-sm block">白い布</span>
+                                    <span class="text-xs text-gray-500">※裏写りしない丈夫な布であれば銘柄問わずOK</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://www.google.com/maps/search/?api=1&query=汐月ハギレ店+熊本" target="_blank" class="mt-6 w-full inline-flex justify-center items-center gap-2 text-white bg-primary hover:bg-primary-light px-4 py-3 rounded-lg text-sm transition-colors font-bold shadow-sm">
+                        <i class="fa-solid fa-map-location-dot"></i> Googleマップ
+                    </a>
+                </div>
+
+                <!-- ナフコ -->
+                <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 flex flex-col h-full">
+                    <div class="flex items-center gap-3 mb-5 border-b border-gray-100 pb-4">
+                        <div class="w-12 h-12 rounded-full bg-blue-50 text-blue-600 flex items-center justify-center text-xl shrink-0">
+                            <i class="fa-solid fa-hammer"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xl text-dark">ホームセンターナフコ</h4>
+                            <p class="text-xs text-gray-500">資材全般の調達先</p>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4 flex-1">
+                        <!-- Points -->
+                        <div class="flex items-start gap-3">
+                            <div class="bg-green-100 text-green-600 w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-xs">
+                                <i class="fa-solid fa-basket-shopping"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-sm text-gray-700">資材の拠点</h5>
+                                <p class="text-xs text-gray-500 mt-1">基本的な資材は全てここで揃います。</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start gap-3">
+                            <div class="bg-red-100 text-red-600 w-6 h-6 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-xs">
+                                <i class="fa-solid fa-stopwatch"></i>
+                            </div>
+                            <div>
+                                <h5 class="font-bold text-sm text-gray-700">在庫切れリスクあり</h5>
+                                <p class="text-xs text-gray-500 mt-1">ペンキ等は他部局も購入するため、品切れになることがあります。計画的な購入を。</p>
+                            </div>
+                        </div>
+
+                        <!-- Items -->
+                        <div class="bg-gray-50 p-4 rounded-lg border border-gray-200 mt-4">
+                            <div class="text-xs font-bold text-gray-400 uppercase mb-2 tracking-wider">主な購入品</div>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-white border border-gray-200 px-2 py-1 rounded text-xs text-gray-700 font-bold">水性ペンキ</span>
+                                <span class="bg-white border border-gray-200 px-2 py-1 rounded text-xs text-gray-700 font-bold">刷毛（ハケ）</span>
+                                <span class="bg-white border border-gray-200 px-2 py-1 rounded text-xs text-gray-700 font-bold">マスキングテープ</span>
+                                <span class="text-xs text-gray-400 py-1">など</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <a href="https://www.google.com/maps/search/?api=1&query=ホームプラザナフコ+黒髪店" target="_blank" class="mt-6 w-full inline-flex justify-center items-center gap-2 text-white bg-blue-600 hover:bg-blue-500 px-4 py-3 rounded-lg text-sm transition-colors font-bold shadow-sm">
+                        <i class="fa-solid fa-map-location-dot"></i> Googleマップ（黒髪店）
+                    </a>
+                </div>
+            </div>
+
+            <!-- Last Year's Purchase Example -->
+            <div class="border-t border-gray-200 pt-8">
+                <h3 class="font-bold text-xl text-gray-700 border-b pb-2 mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-cart-flatbed text-gray-500"></i> 昨年の購入品リスト（参考）
+                </h3>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <p class="text-sm text-gray-500 mb-6 bg-gray-50 p-3 rounded-lg border border-gray-100">
+                        <i class="fa-solid fa-circle-info text-blue-500 mr-1"></i>
+                        これらは第14回で実際に購入した数量の実績です。予算作成時の目安にしてください。<br>
+                        <span class="text-xs text-gray-400">※金額は年によって変動するため記載していません。</span>
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Category: Paint -->
+                        <div>
+                            <h4 class="font-bold text-blue-600 mb-3 flex items-center gap-2 text-sm bg-blue-50 p-2 rounded">
+                                <i class="fa-solid fa-fill-drip"></i> 塗料 (ペンキ)
+                            </h4>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex justify-between items-center border-b border-gray-100 pb-2">
+                                    <span>水性ペンキ (1.6L) <span class="text-xs text-gray-400">メイン色</span></span>
+                                    <span class="font-bold text-dark bg-gray-100 px-2 py-0.5 rounded">12缶</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-100 pb-2">
+                                    <span>水性ペンキ (1.6L) <span class="text-xs text-gray-400">サブ色</span></span>
+                                    <span class="font-bold text-dark bg-gray-100 px-2 py-0.5 rounded">4缶</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-100 pb-2">
+                                    <span>水性ペンキ (0.7L)</span>
+                                    <span class="font-bold text-dark bg-gray-100 px-2 py-0.5 rounded">2缶</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-100 pb-2">
+                                    <span>水性ペンキ (0.2L)</span>
+                                    <span class="font-bold text-dark bg-gray-100 px-2 py-0.5 rounded">2缶</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Category: Material -->
+                        <div>
+                            <h4 class="font-bold text-primary mb-3 flex items-center gap-2 text-sm bg-purple-50 p-2 rounded">
+                                <i class="fa-solid fa-layer-group"></i> 素材・シート
+                            </h4>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex justify-between items-center border-b border-gray-100 pb-2">
+                                    <span>生成り布 / 白布</span>
+                                    <span class="font-bold text-dark bg-gray-100 px-2 py-0.5 rounded">4反</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-100 pb-2">
+                                    <span>ブルーシート</span>
+                                    <span class="font-bold text-dark bg-gray-100 px-2 py-0.5 rounded">1枚</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Category: Tools -->
+                        <div>
+                            <h4 class="font-bold text-gray-600 mb-3 flex items-center gap-2 text-sm bg-gray-100 p-2 rounded">
+                                <i class="fa-solid fa-screwdriver-wrench"></i> 道具・消耗品
+                            </h4>
+                            <ul class="space-y-2 text-sm">
+                                <li class="flex justify-between items-center border-b border-gray-100 pb-2">
+                                    <span>マスキングテープ</span>
+                                    <span class="font-bold text-dark bg-gray-100 px-2 py-0.5 rounded">7個</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-100 pb-2">
+                                    <span>刷毛 (ハケ)</span>
+                                    <span class="font-bold text-dark bg-gray-100 px-2 py-0.5 rounded">6本</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-100 pb-2">
+                                    <span>ローラーキット</span>
+                                    <span class="font-bold text-dark bg-gray-100 px-2 py-0.5 rounded">1個</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-100 pb-2">
+                                    <span>サランラップ <span class="text-xs text-gray-400">ペンキ保存用</span></span>
+                                    <span class="font-bold text-dark bg-gray-100 px-2 py-0.5 rounded">1本</span>
+                                </li>
+                                <li class="flex justify-between items-center border-b border-gray-100 pb-2">
+                                    <span>マッキー</span>
+                                    <span class="font-bold text-dark bg-gray-100 px-2 py-0.5 rounded">1本</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROGRESS VIEW -->
+        <div id="view-progress" class="view-section hidden fade-in max-w-4xl mx-auto">
+            <h2 class="text-3xl font-bold text-dark mb-6">進捗管理・比較シミュレーター</h2>
+            
+            <div class="bg-white rounded-xl shadow-lg p-8 border border-gray-100">
+                <div class="mb-8">
+                    <h3 class="font-bold text-lg mb-4 text-primary border-b pb-2">制作物の完了状況</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-end mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">今日の日付</label>
+                            <input type="date" id="current-date" class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:border-primary">
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                        <p class="text-sm font-bold text-gray-600 mb-3">完了した制作物にチェックを入れてください</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3" id="production-checkboxes">
+                            <!-- Checkboxes will be generated here -->
+                            <label class="flex items-center gap-2 p-2 bg-white rounded border border-gray-200 cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" class="w-5 h-5 text-primary rounded focus:ring-primary production-check" data-weight="4.7" onchange="calculateProgressFromCheckboxes()">
+                                <span class="text-sm">入場門の布</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 bg-white rounded border border-gray-200 cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" class="w-5 h-5 text-primary rounded focus:ring-primary production-check" data-weight="5.0" onchange="calculateProgressFromCheckboxes()">
+                                <span class="text-sm">ステージ下の横断幕</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 bg-white rounded border border-gray-200 cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" class="w-5 h-5 text-primary rounded focus:ring-primary production-check" data-weight="9.3" onchange="calculateProgressFromCheckboxes()">
+                                <span class="text-sm">第2案内所の布</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 bg-white rounded border border-gray-200 cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" class="w-5 h-5 text-primary rounded focus:ring-primary production-check" data-weight="9.3" onchange="calculateProgressFromCheckboxes()">
+                                <span class="text-sm">総合案内所の布</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 bg-white rounded border border-gray-200 cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" class="w-5 h-5 text-primary rounded focus:ring-primary production-check" data-weight="3.0" onchange="calculateProgressFromCheckboxes()">
+                                <span class="text-sm">L字看板（紫熊祭）</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 bg-white rounded border border-gray-200 cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" class="w-5 h-5 text-primary rounded focus:ring-primary production-check" data-weight="3.0" onchange="calculateProgressFromCheckboxes()">
+                                <span class="text-sm">L字看板（装飾部）</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 bg-white rounded border border-gray-200 cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" class="w-5 h-5 text-primary rounded focus:ring-primary production-check" data-weight="12.0" onchange="calculateProgressFromCheckboxes()">
+                                <span class="text-sm">ステージバックパネル</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-2 bg-white rounded border border-gray-200 cursor-pointer hover:bg-gray-50">
+                                <input type="checkbox" class="w-5 h-5 text-primary rounded focus:ring-primary production-check" data-weight="9.0" onchange="calculateProgressFromCheckboxes()">
+                                <span class="text-sm">お笑いバックパネル</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 flex items-center justify-between bg-primary-bg p-4 rounded-lg">
+                        <span class="font-bold text-primary">現在の計算進捗率</span>
+                        <span class="font-bold text-2xl text-primary" id="percent-display">0%</span>
+                    </div>
+
+                    <input type="hidden" id="current-percent" value="0">
+
+                    <button onclick="checkProgress()" class="mt-6 w-full md:w-auto bg-primary text-white font-bold py-3 px-8 rounded-full hover:bg-primary-light transition-colors shadow-md">
+                        <i class="fa-solid fa-check-double mr-2"></i> 去年と比較する
+                    </button>
+                </div>
+
+                <div id="progress-result" class="hidden border-t border-gray-100 pt-8 animate-pulse">
+                    <h3 class="font-bold text-lg mb-4 text-dark">診断結果</h3>
+                    
+                    <!-- Progress Bars -->
+                    <div class="space-y-6 mb-8">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-bold text-gray-600">今年の進捗</span>
+                                <span class="font-bold text-primary" id="this-year-val">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-4">
+                                <div id="bar-this-year" class="bg-primary h-4 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span class="font-bold text-gray-600">去年の同時期 (第14回)</span>
+                                <span class="font-bold text-gray-500" id="last-year-val">0%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-4">
+                                <div id="bar-last-year" class="bg-gray-400 h-4 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Comment Box -->
+                    <div id="comment-box" class="p-6 rounded-xl border-l-4">
+                        <div class="flex items-start gap-4">
+                            <div id="comment-icon" class="text-2xl mt-1"></div>
+                            <div>
+                                <h4 id="comment-title" class="font-bold text-lg"></h4>
+                                <p id="comment-text" class="text-sm mt-1"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-4 text-right">※去年の進捗データは第14回の実際の完成日に基づいています。</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- REFLECTIONS VIEW -->
+        <div id="view-reflections" class="view-section hidden fade-in max-w-5xl mx-auto">
+            <h2 class="text-3xl font-bold text-dark mb-6">反省・トラブルシューティング</h2>
+            
+            <div class="mb-6 flex gap-2">
+                <button onclick="filterReflections('all')" class="px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-sm font-bold text-gray-700 active-filter transition-colors">全て</button>
+                <button onclick="filterReflections('tech')" class="px-4 py-2 rounded-full bg-white border border-gray-200 hover:bg-gray-50 text-sm font-bold text-gray-600 transition-colors">技術面</button>
+                <button onclick="filterReflections('manage')" class="px-4 py-2 rounded-full bg-white border border-gray-200 hover:bg-gray-50 text-sm font-bold text-gray-600 transition-colors">運営面</button>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4" id="reflections-grid">
+                <!-- Card 1 -->
+                <div class="reflection-card type-manage bg-red-50 border border-red-100 p-6 rounded-xl flex gap-4">
+                    <div class="text-red-500 text-xl mt-1"><i class="fa-solid fa-calendar-xmark"></i></div>
+                    <div>
+                        <h4 class="font-bold text-red-800">案募集の時期が遅い</h4>
+                        <p class="text-red-700 text-sm mt-1">7-8月は試験期間と被るため、案が集まりにくい。7月頭には募集を開始すべき。</p>
+                        <span class="inline-block mt-3 px-2 py-1 bg-white rounded text-xs text-red-400 font-bold border border-red-100">運営</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="reflection-card type-manage bg-yellow-50 border border-yellow-100 p-6 rounded-xl flex gap-4">
+                    <div class="text-yellow-600 text-xl mt-1"><i class="fa-solid fa-people-arrows"></i></div>
+                    <div>
+                        <h4 class="font-bold text-yellow-800">他部局との場所トラブル</h4>
+                        <p class="text-yellow-700 text-sm mt-1">学内広報部と活動場所が被り、道具を勝手に使われる事案発生。道具一つ一つにマッキーで「第◯代　装飾部」と大きく書くことで対策。</p>
+                        <span class="inline-block mt-3 px-2 py-1 bg-white rounded text-xs text-yellow-600 font-bold border border-yellow-100">運営</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="reflection-card type-tech bg-blue-50 border border-blue-100 p-6 rounded-xl flex gap-4">
+                    <div class="text-blue-500 text-xl mt-1"><i class="fa-solid fa-ruler-combined"></i></div>
+                    <div>
+                        <h4 class="font-bold text-blue-800">サイズ確認ミス</h4>
+                        <p class="text-blue-700 text-sm mt-1">第13回, 14回と連続でステージサイズの変更連絡ミスが発生。製作前に必ず装飾部長に最新のサイズ表をもらい、実寸を確認すること。</p>
+                        <span class="inline-block mt-3 px-2 py-1 bg-white rounded text-xs text-blue-400 font-bold border border-blue-100">技術</span>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="reflection-card type-tech bg-gray-50 border border-gray-200 p-6 rounded-xl flex gap-4">
+                    <div class="text-gray-500 text-xl mt-1"><i class="fa-solid fa-paintbrush"></i></div>
+                    <div>
+                        <h4 class="font-bold text-gray-800">道具の手入れ不足</h4>
+                        <p class="text-gray-600 text-sm mt-1">ペンキがついたまま放置された刷毛が大量発生。使用後は必ず水洗いし、乾燥を防ぐ。</p>
+                        <span class="inline-block mt-3 px-2 py-1 bg-white rounded text-xs text-gray-400 font-bold border border-gray-200">技術</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <script>
+        // ROUTER Logic
+        function router(viewId) {
+            // Hide all views
+            document.querySelectorAll('.view-section').forEach(el => {
+                el.classList.add('hidden');
+            });
+            
+            // Show selected view
+            const target = document.getElementById('view-' + viewId);
+            if(target) {
+                target.classList.remove('hidden');
+                // Re-trigger animation
+                target.classList.remove('fade-in');
+                void target.offsetWidth; // trigger reflow
+                target.classList.add('fade-in');
+            }
+
+            // Update Nav State
+            document.querySelectorAll('.nav-item').forEach(el => {
+                el.classList.remove('active', 'bg-purple-50', 'text-primary', 'border-r-4', 'border-primary');
+                el.classList.add('hover:bg-gray-50');
+            });
+
+            const activeNav = document.getElementById('nav-' + viewId);
+            if(activeNav) {
+                activeNav.classList.add('active');
+            }
+
+            // Mobile menu close helper
+            if(window.innerWidth < 768) {
+                toggleMobileMenu(false);
+            }
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu(forceState) {
+            const nav = document.getElementById('sidebar');
+            const isHidden = nav.classList.contains('hidden');
+            
+            // 追加するクラス群: fixedにしてtop-16(ヘッダー下)から配置
+            const mobileClasses = ['fixed', 'top-16', 'bottom-0', 'left-0', 'z-40', 'w-64', 'border-r', 'border-gray-200']; 
+            
+            if (forceState !== undefined) {
+                if (forceState) {
+                    nav.classList.remove('hidden');
+                    nav.classList.add(...mobileClasses);
+                } else {
+                    nav.classList.add('hidden');
+                    nav.classList.remove(...mobileClasses);
+                }
+            } else {
+                if (isHidden) {
+                    nav.classList.remove('hidden');
+                    nav.classList.add(...mobileClasses);
+                } else {
+                    nav.classList.add('hidden');
+                    nav.classList.remove(...mobileClasses);
+                }
+            }
+        }
+
+        // ==========================================
+        // SCHEDULE DATA & LOGIC
+        // ==========================================
+        
+        const scheduleData = [
+            {
+                id: 'jul',
+                month: '7月',
+                label: '企画',
+                labelColor: 'bg-blue-100 text-blue-600',
+                title: '案募集・決定',
+                summary: '制作案の募集と決定を行います。夏休み前から動き出すとスムーズです。試験期間と被るので早めの周知がカギ。',
+                detail: `
+                    <p>部員からデザイン案を募り、集まった案をもとに装飾部長・他班長と協議して決定します。</p>
+                    <h4 class="font-bold mt-4 mb-2 text-red-500">注意点</h4>
+                    <p>デザイン案の募集開始が遅れると前期試験期間（7月中旬〜）と被り、案が集まりにくくなります。余裕を持って早めに募集を開始してください。</p>
+                `,
+                bgColor: 'bg-primary'
+            },
+            {
+                id: 'aug',
+                month: '8・9月',
+                label: '始動',
+                labelColor: 'bg-green-100 text-green-600',
+                title: '夏季休暇活動',
+                summary: '平日の13:00〜17:00で活動。夏休み終わりまでに布が2枚終わるくらいがベター。',
+                detail: `
+                    <p>夏休みに入ったら本格始動です。進捗の目安として、夏休み終わりまでに布制作が2枚完了している状態を目指しましょう。</p>
+                    <h4 class="font-bold mt-4 mb-2">注意点</h4>
+                    <p>活動場所（屋外・屋内）の気温が高くなるため、熱中症対策（こまめな水分補給、休憩）を徹底してください。</p>
+                `,
+                bgColor: 'bg-primary'
+            },
+            {
+                id: 'oct',
+                month: '10月',
+                label: '繁忙期',
+                labelColor: 'bg-red-100 text-red-600',
+                title: '制作ピーク・深夜作業',
+                summary: '第3ターム開始後は夕方からの活動がメイン。間に合わない場合は「深夜作業届」を出して23時まで作業します。',
+                detail: `
+                    <p>紫熊祭まであと1ヶ月。授業開始に伴い、活動時間は夕方以降が中心になります。</p>
+                    <h4 class="font-bold mt-4 mb-2">深夜作業について</h4>
+                    <p>23時までの活動を行う場合は、事前に学生支援課へ「深夜作業届」の提出が必要です。提出期限を守らないと許可が下りないので注意してください。また、ライトは図書館の近くの倉庫にあります。倉庫の鍵は本部室にあります。</p>
+                `,
+                bgColor: 'bg-primary'
+            },
+            {
+                id: 'nov-prep',
+                month: '11月',
+                subDate: '1日',
+                label: '重要',
+                labelColor: 'bg-yellow-100 text-yellow-800',
+                title: '前日（準備日）',
+                summary: 'いよいよ明日が本番です。人員配置を行い、ラストスパートをかけます。',
+                detail: `
+                    <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200 mb-6">
+                        <h4 class="font-bold text-yellow-800 mb-2 border-b border-yellow-200 pb-1">
+                            <i class="fa-solid fa-comment-dots mr-1"></i> 前日のLINE連絡内容
+                        </h4>
+                        <ul class="text-sm text-yellow-900 list-disc list-inside space-y-2">
+                            <li>明日は人数を割り振って作業を行う予定です。</li>
+                            <li>テント設営などが完了するまで、前半は主に<strong>屋内・屋外班のお手伝い</strong>をお願いします。</li>
+                            <li>当日は重要な作業が多いため、<strong>欠席・遅刻がないように</strong>してください！</li>
+                        </ul>
+                    </div>
+                    <p>準備日は朝から全員集合です。自分たちの作業だけでなく、全体の設営補助も重要な任務です。班長は全体の進捗を見ながら柔軟に指示を出してください。</p>
+                    <p class="mt-2 text-red-500 font-bold">※班長は他部局との調整・連絡が頻繁に入ります。スマホを常に確認できるようにしておいてください。</p>
+                `,
+                bgColor: 'bg-accent'
+            },
+            {
+                id: 'nov-main',
+                month: '11月',
+                subDate: '2-4日',
+                label: '本番',
+                labelColor: 'bg-purple-100 text-purple-800',
+                title: '紫熊祭 当日',
+                summary: '3日間の開催期間。朝の見回り以外は比較的自由です。楽しみましょう！',
+                detail: `
+                    <p>ついに本番です！これまでの苦労が報われる瞬間です。</p>
+                    <h4 class="font-bold mt-4 mb-2">主な業務</h4>
+                    <ul class="list-disc list-inside mb-4">
+                        <li><strong>朝の見回り:</strong> 装飾物が強風等で破損していないか、毎朝チェックします。</li>
+                        <li><strong>緊急対応:</strong> 看板が倒れた等のトラブルがあった場合は直ちに修復に向かいます。</li>
+                    </ul>
+                    <p>それ以外の時間は基本的にフリーです。模擬店を回ったり、ステージを見たりして楽しみましょう。ただし、班長は緊急連絡が入る可能性があるため、連絡がつく状態を維持してください。</p>
+                `,
+                bgColor: 'bg-accent'
+            },
+            {
+                id: 'nov-clean',
+                month: '11月',
+                subDate: '5日',
+                label: '撤収',
+                labelColor: 'bg-gray-100 text-gray-600',
+                title: '後片付け',
+                summary: '祭りの後の撤収作業。廃棄物の分別ルールを厳守してください。',
+                detail: `
+                    <p>全ての装飾物を撤去し、廃棄します。</p>
+                    <h4 class="font-bold mt-4 mb-2">注意点</h4>
+                    <ul class="list-disc list-inside">
+                        <li><strong>分別徹底:</strong> 木材、布、燃えるゴミなど、大学の指定に従って厳密に分別してください。</li>
+                        <li><strong>備品返却:</strong> 借りていた机や椅子、ブルーシートなどを返却します。</li>
+                        <li><strong>ペンキの処理:</strong> 余ったペンキは固めて捨てるか、次年度用に密封して保管するか、指示に従ってください。水道には絶対に流さないでください。</li>
+                    </ul>
+                    <p>片付けが終わるまでが紫熊祭です。最後まできっちりやり遂げましょう。お疲れ様でした！</p>
+                `,
+                bgColor: 'bg-gray-400'
+            }
+        ];
+
+        function renderScheduleList() {
+            const container = document.getElementById('schedule-container');
+            container.innerHTML = '';
+
+            scheduleData.forEach(item => {
+                const dateDisplay = item.subDate ? `${item.month}<br><span class="text-xs">${item.subDate}</span>` : item.month;
+                
+                // アイコンの文字サイズ調整ロジック
+                // 文字数が3文字以上（例: "8・9月"）ならフォントサイズを小さくする
+                const fontSizeClass = item.month.length > 2 ? 'text-[10px]' : 'text-xs';
+                
+                const html = `
+                    <div class="relative cursor-pointer group" onclick="openScheduleDetail('${item.id}')">
+                        <div class="absolute -left-[41px] ${item.bgColor} text-white w-10 h-10 rounded-full flex flex-col items-center justify-center ${fontSizeClass} font-bold shadow-sm z-10 border-2 border-white leading-tight">
+                            ${dateDisplay}
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 group-hover:shadow-md group-hover:translate-x-1 transition-all duration-200">
+                            <div class="flex justify-between items-start mb-2">
+                                <span class="inline-block px-3 py-1 rounded-full text-xs font-bold ${item.labelColor}">${item.label}</span>
+                                <i class="fa-solid fa-chevron-right text-gray-300 group-hover:text-primary transition-colors"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-dark group-hover:text-primary transition-colors">${item.title}</h3>
+                            <p class="text-gray-600 mt-2 text-sm line-clamp-2">${item.summary}</p>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', html);
+            });
+        }
+
+        function openScheduleDetail(id) {
+            const item = scheduleData.find(d => d.id === id);
+            if (!item) return;
+
+            // Populate Data
+            document.getElementById('detail-month').innerText = item.subDate ? `${item.month} ${item.subDate}` : item.month;
+            document.getElementById('detail-label').innerText = item.label;
+            document.getElementById('detail-title').innerText = item.title;
+            document.getElementById('detail-content').innerHTML = item.detail;
+            
+            // Style Header
+            const header = document.getElementById('detail-header');
+            header.className = `p-8 text-white ${item.bgColor.replace('bg-', 'bg-') || 'bg-primary'}`; // Simple logic, assumes tailwind classes
+            // For complex colors mapping if needed:
+            if(item.id.includes('nov')) {
+                if(item.id === 'nov-clean') header.classList.add('bg-gray-500');
+                else header.classList.add('bg-yellow-500');
+            } else {
+                header.classList.add('bg-primary');
+            }
+
+            // Switch View
+            document.getElementById('view-schedule').classList.add('hidden');
+            document.getElementById('view-schedule-detail').classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function closeScheduleDetail() {
+            document.getElementById('view-schedule-detail').classList.add('hidden');
+            document.getElementById('view-schedule').classList.remove('hidden');
+        }
+
+        // PROGRESS SIMULATOR Logic
+        
+        // 仮のデータ: 去年(第14回)の進捗ログ
+        // "MM-DD": 達成率(%)
+        const lastYearData = [
+            { date: '09-30', val: 0 },
+            { date: '10-01', val: 13 }, // 入場門
+            { date: '10-06', val: 25 }, // 横断幕
+            { date: '10-15', val: 38 }, // 第2案内所
+            { date: '10-16', val: 63 }, // L字x2
+            { date: '10-21', val: 75 }, // お笑い
+            { date: '10-24', val: 88 }, // ステージ
+            { date: '10-27', val: 100 } // 総合案内所
+        ];
+
+        function getLastYearPercent(inputDateStr) {
+            if(!inputDateStr) return 0;
+            
+            const dateObj = new Date(inputDateStr);
+            const md = (dateObj.getMonth() + 1).toString().padStart(2, '0') + '-' + dateObj.getDate().toString().padStart(2, '0');
+            
+            if(md < lastYearData[0].date) return 0;
+            if(md >= lastYearData[lastYearData.length-1].date) return 100;
+
+            for(let i = 0; i < lastYearData.length - 1; i++) {
+                const start = lastYearData[i];
+                const end = lastYearData[i+1];
+                
+                if(md >= start.date && md < end.date) {
+                    return start.val; 
+                }
+            }
+            return 100;
+        }
+
+        function calculateProgressFromCheckboxes() {
+            const checkboxes = document.querySelectorAll('.production-check');
+            let totalWeight = 0;
+            let currentWeight = 0;
+
+            checkboxes.forEach(cb => {
+                const weight = parseFloat(cb.getAttribute('data-weight') || 1);
+                totalWeight += weight;
+                if(cb.checked) {
+                    currentWeight += weight;
+                }
+            });
+
+            const percent = totalWeight === 0 ? 0 : Math.round((currentWeight / totalWeight) * 100);
+            
+            // 表示更新
+            document.getElementById('percent-display').innerText = percent + '%';
+            // 隠しフィールド更新 (checkProgressで使うため)
+            document.getElementById('current-percent').value = percent;
+        }
+
+        function checkProgress() {
+            const dateInput = document.getElementById('current-date').value;
+            const percentInput = parseInt(document.getElementById('current-percent').value);
+
+            if(!dateInput) {
+                alert('日付を選択してください');
+                return;
+            }
+
+            // 1. 去年の値を取得
+            const lastYearPercent = getLastYearPercent(dateInput);
+            
+            // 2. 表示更新
+            document.getElementById('progress-result').classList.remove('hidden');
+            document.getElementById('progress-result').classList.remove('animate-pulse'); 
+            
+            document.getElementById('this-year-val').innerText = percentInput + '%';
+            document.getElementById('last-year-val').innerText = lastYearPercent + '%';
+
+            document.getElementById('bar-this-year').style.width = percentInput + '%';
+            document.getElementById('bar-last-year').style.width = lastYearPercent + '%';
+
+            // 3. コメント判定
+            const box = document.getElementById('comment-box');
+            const title = document.getElementById('comment-title');
+            const text = document.getElementById('comment-text');
+            const icon = document.getElementById('comment-icon');
+
+            // Reset classes
+            box.className = 'p-6 rounded-xl border-l-4 transition-colors duration-500';
+            
+            const diff = percentInput - lastYearPercent;
+
+            if (diff >= 10) {
+                // 余裕あり
+                box.classList.add('bg-green-50', 'border-green-500', 'text-green-800');
+                icon.innerHTML = '<i class="fa-solid fa-face-smile text-green-500"></i>';
+                title.innerText = "素晴らしい進捗です！";
+                text.innerText = "昨年よりかなり先行しています。この調子なら余裕を持ってリハーサルに臨めます。品質向上に時間を使いましょう。";
+            } else if (diff >= -5) {
+                // トントン or 少し遅れ
+                box.classList.add('bg-yellow-50', 'border-yellow-500', 'text-yellow-800');
+                icon.innerHTML = '<i class="fa-solid fa-face-meh text-yellow-600"></i>';
+                title.innerText = "油断禁物です";
+                text.innerText = "昨年とほぼ同じペースです。昨年は後半デスマーチだったので、今のうちに前倒しで進めることを強く推奨します。";
+            } else {
+                // 遅れている
+                box.classList.add('bg-red-50', 'border-red-500', 'text-red-800');
+                icon.innerHTML = '<i class="fa-solid fa-triangle-exclamation text-red-500"></i>';
+                title.innerText = "危険信号点灯！";
+                text.innerText = `昨年同時期(${lastYearPercent}%)よりも遅れています！このままだと間に合いません。直ちに作業日程を見直し、人員を追加してください。`;
+            }
+        }
+
+        // FILTER Logic
+        function filterReflections(type) {
+            const cards = document.querySelectorAll('.reflection-card');
+            
+            // Update button styles
+            const buttons = document.querySelectorAll('button[onclick^="filterReflections"]');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('onclick').includes("'" + type + "'")) {
+                    btn.classList.remove('bg-white', 'text-gray-600');
+                    btn.classList.add('bg-gray-200', 'text-gray-700');
+                } else {
+                    btn.classList.remove('bg-gray-200', 'text-gray-700');
+                    btn.classList.add('bg-white', 'text-gray-600');
+                }
+            });
+
+            cards.forEach(card => {
+                if (type === 'all') {
+                    card.classList.remove('hidden');
+                } else {
+                    if (card.classList.contains('type-' + type)) {
+                        card.classList.remove('hidden');
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                }
+            });
+        }
+
+        // Initial Load
+        window.addEventListener('DOMContentLoaded', () => {
+            router('dashboard');
+            // Render Schedule
+            renderScheduleList();
+            
+            // デフォルトの日付を今日にする
+            const today = new Date();
+            const yyyy = today.getFullYear();
+            const mm = String(today.getMonth() + 1).padStart(2, '0');
+            const dd = String(today.getDate()).padStart(2, '0');
+            const dateInput = document.getElementById('current-date');
+            if (dateInput) {
+                dateInput.value = `${yyyy}-${mm}-${dd}`;
+            }
+
+            // PC表示に戻った時にモバイルメニューのスタイルをリセットする
+            window.addEventListener('resize', () => {
+                if (window.innerWidth >= 768) {
+                    const nav = document.getElementById('sidebar');
+                    const mobileClasses = ['fixed', 'top-16', 'bottom-0', 'left-0', 'z-40', 'w-64', 'border-r', 'border-gray-200'];
+                    // モバイル用クラスを削除
+                    nav.classList.remove(...mobileClasses);
+                    // PC表示用クラス（元々HTMLにあるもの）が適用されるようにhiddenを削除するなどの調整が必要ならここで行う
+                    // 今回のHTML構造では md:flex があるので hidden を削除すればPC版レイアウトに戻るはずだが
+                    // toggleMobileMenuでhiddenをつけたり消したりしているので、念のためhiddenは残しておくか、
+                    // md:flexが効くようにクラス操作を整理する。
+                    // ここではシンプルに toggleMobileMenu(false) を呼ぶのと同じ状態にする
+                    nav.classList.add('hidden'); // いったん隠す（md:flexでPC時は表示される）
+                }
+            });
+        });
+    </script>
+</body>
+</html>
