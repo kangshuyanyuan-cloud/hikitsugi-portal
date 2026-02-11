@@ -30,17 +30,16 @@
 
 ## 💻 技術スタック (Tech Stack)
 
-最短時間で「動くもの」をデリバリーすることを最優先し、軽量かつ高速な構成を採用しました。
+本プロジェクトは**「Google Gemini Canvas」のみを使用**し、自然言語による指示（プロンプト）だけでコード生成からUI構築までを行いました。
+「コーディング」ではなく「要件定義とAIへのディレクション」に注力することで、圧倒的な短期間開発を実現しています。
 
-- **Frontend**: HTML5, Vanilla JavaScript (ES6+)
-- **Styling**: Tailwind CSS (CDN)
-- **Icons**: FontAwesome
-- **Deploy**: Netlify
-- **AI Collaboration**: ChatGPT / Claude (要件定義・ロジック構築・実装の高速化に使用)
+- **Development Tool**: Google Gemini Canvas (All code generated via prompting)
+- **Frontend (Generated)**: HTML5, Vanilla JavaScript (ES6+), Tailwind CSS (CDN)
+- **Deployment**: Netlify
 
 ## 📅 開発期間
 - **着手**: 2026年2月
-- **期間**: 約12時間 (企画・実装・デプロイ含む)
+- **期間**: 約12時間 (企画・プロンプト設計・デプロイ含む)
 
 ## 👤 Author
 **Kouki Iwamoto**
