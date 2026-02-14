@@ -37,9 +37,12 @@
 - **Frontend (Generated)**: HTML5, Vanilla JavaScript (ES6+), Tailwind CSS (CDN)
 - **Deployment**: Netlify
 
-## 📅 開発期間
-- **着手**: 2026年2月
-- **期間**: 約12時間 (企画・プロンプト設計・デプロイ含む)
+## 📅 開発期間 (Timeline)
+**2026/02/10 - 2026/02/12**
+- **総開発時間**: 約12時間
+- **プロセス**: 
+  - 企画・要件定義・AIプロンプト設計・プロトタイプ生成（約7時間）
+  - デプロイ作業・細部UI調整・動作検証（約5時間）
 
 ## 👤 Author
 **Kouki Iwamoto**
